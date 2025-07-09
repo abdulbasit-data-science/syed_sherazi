@@ -127,11 +127,11 @@ export default function Chat() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh]">
-      <div className="w-full max-w-2xl bg-white dark:bg-zinc-900 shadow-xl rounded-2xl border border-zinc-200 dark:border-zinc-800 flex flex-col h-[70vh] sm:h-[75vh] overflow-hidden">
-        <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-zinc-50 dark:from-zinc-900 to-white dark:to-zinc-950">
+    <div className="flex flex-col items-center justify-center min-h-[70vh] px-1 sm:px-0">
+      <div className="w-full max-w-2xl bg-white dark:bg-zinc-900 shadow-xl rounded-2xl border border-zinc-200 dark:border-zinc-800 flex flex-col h-[80vh] sm:h-[75vh] overflow-hidden">
+        <div className="flex-1 overflow-y-auto p-2 sm:p-6 space-y-3 sm:space-y-4 bg-gradient-to-b from-zinc-50 dark:from-zinc-900 to-white dark:to-zinc-950">
           {messages.length === 0 && (
-            <div className="text-center text-zinc-400 pt-16 select-none">
+            <div className="text-center text-zinc-400 pt-10 sm:pt-16 select-none text-sm sm:text-base">
               Start the conversation by typing or using the microphone!
             </div>
           )}
@@ -140,8 +140,8 @@ export default function Chat() {
               <div
                 className={
                   msg.role === "user"
-                    ? "max-w-[80%] bg-blue-600 text-white rounded-br-2xl rounded-t-2xl rounded-bl-md px-4 py-2 shadow-md"
-                    : "max-w-[80%] bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-bl-2xl rounded-t-2xl rounded-br-md px-4 py-2 shadow"
+                    ? "max-w-[90%] sm:max-w-[80%] bg-blue-600 text-white rounded-br-2xl rounded-t-2xl rounded-bl-md px-3 sm:px-4 py-2 text-sm sm:text-base shadow-md"
+                    : "max-w-[90%] sm:max-w-[80%] bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-bl-2xl rounded-t-2xl rounded-br-md px-3 sm:px-4 py-2 text-sm sm:text-base shadow"
                 }
               >
                 {msg.role === "agent" && isMarkdown(msg.content) ? (
@@ -154,25 +154,25 @@ export default function Chat() {
           ))}
           {loading && (
             <div className="flex justify-start">
-              <div className="max-w-[80%] bg-zinc-100 dark:bg-zinc-800 text-zinc-400 rounded-bl-2xl rounded-t-2xl rounded-br-md px-4 py-2 shadow animate-pulse">
+              <div className="max-w-[90%] sm:max-w-[80%] bg-zinc-100 dark:bg-zinc-800 text-zinc-400 rounded-bl-2xl rounded-t-2xl rounded-br-md px-3 sm:px-4 py-2 text-sm sm:text-base shadow animate-pulse">
                 Agent is typing...
               </div>
             </div>
           )}
         </div>
-        <div className="border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-4 flex gap-2 items-center sticky bottom-0">
+        <div className="border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-2 sm:p-4 flex gap-1 sm:gap-2 items-center sticky bottom-0">
           {!recording ? (
             <button
-              className="p-2 rounded-full border bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors focus:ring-2 focus:ring-blue-400"
+              className="p-2 sm:p-2.5 rounded-full border bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors focus:ring-2 focus:ring-blue-400 flex-shrink-0"
               onClick={startRecording}
               disabled={loading}
               aria-label="Start recording"
             >
-              <Mic />
+              <Mic size={20} />
             </button>
           ) : (
             <button
-              className="p-2 rounded-full border bg-red-500 text-white hover:bg-red-600 transition-colors focus:ring-2 focus:ring-red-400"
+              className="p-2 sm:p-2.5 rounded-full border bg-red-500 text-white hover:bg-red-600 transition-colors focus:ring-2 focus:ring-red-400 flex-shrink-0"
               onClick={stopRecording}
               disabled={loading}
               aria-label="Stop recording"
@@ -182,7 +182,7 @@ export default function Chat() {
           )}
           <input
             ref={inputRef}
-            className="flex-1 border border-zinc-300 dark:border-zinc-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 transition"
+            className="flex-1 border border-zinc-300 dark:border-zinc-700 rounded-lg px-2 sm:px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 transition text-sm sm:text-base"
             type="text"
             placeholder="Type your message or use the mic..."
             value={input}
@@ -192,12 +192,12 @@ export default function Chat() {
             autoComplete="off"
           />
           <button
-            className="p-2 rounded-full bg-blue-600 text-white disabled:bg-blue-300 hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-400"
+            className="p-2 sm:p-2.5 rounded-full bg-blue-600 text-white disabled:bg-blue-300 hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-400 flex-shrink-0"
             onClick={() => input.trim() && sendMessage(input.trim())}
             disabled={!input.trim() || loading}
             aria-label="Send"
           >
-            <Send />
+            <Send size={20} />
           </button>
         </div>
       </div>
