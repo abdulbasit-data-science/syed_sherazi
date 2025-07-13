@@ -38,7 +38,7 @@ export default function Chat() {
   const [recording, setRecording] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunks = useRef<Blob[]>([]);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Handle sending text to n8n webhook
   async function sendMessage(text: string) {
@@ -120,7 +120,7 @@ export default function Chat() {
     setRecording(false);
   }
 
-  function handleInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+  function handleInputKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === "Enter" && input.trim() && !loading) {
       sendMessage(input.trim());
     }
@@ -180,16 +180,21 @@ export default function Chat() {
               <div className="w-4 h-4 bg-white rounded-full animate-pulse" />
             </button>
           )}
-          <input
+          <textarea
             ref={inputRef}
-            className="flex-1 border border-zinc-300 dark:border-zinc-700 rounded-lg px-2 sm:px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 transition text-sm sm:text-base"
-            type="text"
+            className="flex-1 border border-zinc-300 dark:border-zinc-700 rounded-lg px-2 sm:px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 transition text-sm sm:text-base resize-none min-h-[40px] max-h-[120px] overflow-y-auto"
             placeholder="Type your message or use the mic..."
             value={input}
-            onChange={e => setInput(e.target.value)}
+            onChange={e => {
+              setInput(e.target.value);
+              // Auto-resize the textarea
+              e.target.style.height = 'auto';
+              e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px';
+            }}
             onKeyDown={handleInputKeyDown}
             disabled={loading}
             autoComplete="off"
+            rows={1}
           />
           <button
             className="p-2 sm:p-2.5 rounded-full bg-blue-600 text-white disabled:bg-blue-300 hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-400 flex-shrink-0"
