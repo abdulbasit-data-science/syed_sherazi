@@ -40,6 +40,14 @@ export default function Chat() {
   const audioChunks = useRef<Blob[]>([]);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  // Auto-resize textarea when input changes (typed or from STT)
+  React.useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.style.height = 'auto';
+      inputRef.current.style.height = Math.min(inputRef.current.scrollHeight, 128) + 'px';
+    }
+  }, [input]);
+
   // Handle sending text to n8n webhook
   async function sendMessage(text: string) {
     setMessages((msgs) => [...msgs, { role: "user", content: text }]);
@@ -98,7 +106,6 @@ export default function Chat() {
           const data = await resp.json();
           if (data.text) {
             setInput(data.text);
-            inputRef.current?.focus();
           } else {
             alert("Could not transcribe audio");
           }
